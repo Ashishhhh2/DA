@@ -1,0 +1,273 @@
+CREATE DATABASE Demo;
+USE demo;
+DROP DATABASE demo;
+CREATE DATABASE Demo1;
+USE demo1;
+CREATE TABLE Customer(
+Customer_ID INT AUTO_INCREMENT UNIQUE NOT NULL, 
+First_Name VARCHAR(50),
+Email VARCHAR(75),
+Country VARCHAR(25) 
+);
+DROP TABLE Customer;
+ALTER TABLE Customer
+ADD PRIMARY KEY (Customer_ID);
+INSERT INTO Customer (First_name, Email, Country)
+VALUES ('Customer_1','customer1@mail.com','UK'),
+('Customer_2','customer2@mail.com','USA'),
+('Customer_3','customer3@mail.com','India'),
+('Customer_4','customer4@mail.com','Australia'),
+('Customer_5','customer5@mail.com','UK'),
+('Customer_6','customer6@mail.com','India'),
+('Customer_7','customer7@mail.com','Australia'),
+('Customer_8','customer8@mail.com','Canada'),
+('Customer_9','customer9@mail.com','Australia'),
+('Customer_10','customer10@mail.com','India'),
+('Customer_11','customer11@mail.com','Canada'),
+('Customer_12','customer12@mail.com','Australia'),
+('Customer_13','customer13@mail.com','USA'),
+('Customer_14','customer14@mail.com','Canada'),
+('Customer_15','customer15@mail.com','UK'),
+('Customer_16','customer16@mail.com','USA'),
+('Customer_17','customer17@mail.com','India'),
+('Customer_18','customer18@mail.com','UK'),
+('Customer_19','customer19@mail.com','UK'),
+('Customer_20','customer20@mail.com','USA');
+CREATE TABLE Product (
+Product_ID INT AUTO_INCREMENT UNIQUE PRIMARY KEY,
+Product_Name VARCHAR(50) UNIQUE,
+Category VARCHAR(50),
+Price DECIMAL (10,2)
+);
+INSERT INTO Product (Product_name, Category, Price)
+VALUES ('Product_1','Electronics','583.81'),
+('Product_2','Books','54.6'),
+('Product_3','Books','128.12'),
+('Product_4','Books','122.01'),
+('Product_5','Sports','508.72'),
+('Product_6','Sports','972.18'),
+('Product_7','Electronics','495.36'),
+('Product_8','Home Appliances','673.35'),
+('Product_9','Sports','377.68'),
+('Product_10','Sports','983.14'),
+('Product_11','Home Appliances','121.52'),
+('Product_12','Books','59.63'),
+('Product_13','Electronics','972.11'),
+('Product_14','Sports','724.25'),
+('Product_15','Clothing','500.01'),
+('Product_16','Sports','329.2'),
+('Product_17','Sports','951.39'),
+('Product_18','Home Appliances','199.34'),
+('Product_19','Sports','809.43'),
+('Product_20','Books','354.53');
+
+CREATE TABLE Orderr (Order_ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+Customer_ID INT NOT NULL,
+Product_ID INT NOT NULL,
+Quantity INT NOT NULL,
+Order_Date TIMESTAMP
+);
+INSERT INTO Orderr (Customer_ID, Product_ID, Quantity, Order_date)
+VALUES ('421','34','6','2024-08-10 00:00:00'),
+('174','16','1','2024-12-03 00:00:00'),
+('304','95','5','2024-04-27 00:00:00'),
+('494','1','1','2024-08-14 00:00:00'),
+('482','98','8','2024-04-29 00:00:00'),
+('5','5','3','2025-02-18 00:00:00'),
+('261','61','3','2024-05-30 00:00:00'),
+('136','13','7','2024-08-08 00:00:00'),
+('212','59','8','2025-03-06 00:00:00'),
+('193','2','7','2024-09-08 00:00:00'),
+('287','29','4','2024-03-24 00:00:00'),
+('347','50','3','2024-02-28 00:00:00'),
+('239','93','4','2025-03-08 00:00:00'),
+('227','6','6','2025-01-27 00:00:00'),
+('192','52','2','2024-10-02 00:00:00'),
+('215','70','1','2025-03-02 00:00:00'),
+('395','67','4','2024-01-20 00:00:00'),
+('342','92','6','2024-01-17 00:00:00'),
+('120','5','4','2024-11-21 00:00:00'),
+('362','70','1','2025-01-16 00:00:00');
+
+TRUNCATE TABLE Product;
+SELECT * FROM Orderr;
+
+CREATE TABLE REVIEW (Review_ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+Customer_ID INT	NOT NULL,
+Product_ID	INT	NOT NULL, 
+Rating	INT	NOT NULL, 
+Review_Text VARCHAR(255)
+);
+INSERT INTO REVIEW (Customer_ID, Product_ID, Rating, Review_text)
+VALUES ('115','60','2','Review_1'),
+('98','15','5','Review_2'),
+('28','79','3','Review_3'),
+('388','13','5','Review_4'),
+('172','48','2','Review_5'),
+('391','61','5','Review_6'),
+('232','14','2','Review_7'),
+('21','76','3','Review_8'),
+('320','94','4','Review_9'),
+('175','63','4','Review_10'),
+('201','10','5','Review_11'),
+('127','34','5','Review_12'),
+('81','66','1','Review_13'),
+('167','57','3','Review_14'),
+('218','38','5','Review_15'),
+('323','58','3','Review_16'),
+('489','68','4','Review_17'),
+('100','97','5','Review_18'),
+('215','67','1','Review_19'),
+('4','32','1','Review_20');
+
+CREATE TABLE Payment (
+Payment_ID INT AUTO_INCREMENT PRIMARY KEY ,
+Order_ID INT NOT NULL,
+Payment_Method VARCHAR(75),
+Payment_Status VARCHAR(75)
+);
+INSERT INTO Payment (Order_ID, Payment_Method, Payment_status)
+VALUES ('1','Debit Card','Failed'),
+('2','PayPal','Pending'),
+('3','Net Banking','Pending'),
+('4','Cash on Delivery','Failed'),
+('5','Net Banking','Completed'),
+('6','Cash on Delivery','Completed'),
+('7','Debit Card','Failed'),
+('8','Debit Card','Failed'),
+('9','Cash on Delivery','Completed'),
+('10','PayPal','Completed'),
+('11','Debit Card','Pending'),
+('12','Credit Card','Failed'),
+('13','Cash on Delivery','Pending'),
+('14','Debit Card','Failed'),
+('15','Net Banking','Failed'),
+('16','Net Banking','Pending'),
+('17','Net Banking','Failed'),
+('18','Credit Card','Pending'),
+('19','PayPal','Completed'),
+('20','Credit Card','Pending');
+
+
+TRUNCATE TABLE Payment;
+SELECT * FROM review; 
+DROP TABLE Payment;
+
+-- Retrieve all orders with customer details (Customer Name, Email, Order ID, Order Date, Total Amount).--
+SELECT first_name, email, Order_ID, Order_date FROM customer AS c
+JOIN Orderr AS o
+ON c.customer_ID = o.Customer_id;
+
+-- List all products that have been ordered, along with the customer who ordered them (Product Name, Customer Name, Order Date).--
+SELECT first_name, Product_name, Order_date 
+FROM Orderr AS O
+JOIN Customer AS C ON c.customer_ID = o.Customer_id
+JOIN product AS p ON p.product_ID = o.product_id;
+
+-- Show all reviews, including the Customer Name, Product Name, Rating, and Review Date.--
+SELECT first_name, Product_name, Rating
+FROM review AS r 
+JOIN customer AS c ON c.customer_id = r.customer_id
+JOIN product AS p ON p.product_ID = r.product_ID;
+
+-- Get a list of payments, including the Order ID, Customer Name, Payment Method, and Payment Date.--
+SELECT o.Order_ID, First_name, Order_date, Payment_method, Payment_id
+FROM Customer AS c
+JOIN Orderr AS o ON c.customer_id = o.customer_id
+JOIN payment AS p on p.order_id = o.order_id;
+
+-- Find all customers who have never placed an order. --
+SELECT first_name, c.customer_ID, email
+FROM customer AS c
+LEFT JOIN orderr as o
+ON c.customer_ID = o.customer_id
+WHERE o.order_id IS NULL;
+
+-- List the top 5 most ordered products, including Product Name and the total number of times ordered.-- 
+SELECT Product_name, COUNT(o.product_id) AS total_order
+FROM Orderr AS o
+JOIN Product AS p
+ON o.product_id = p.product_id 
+GROUP BY Product_name
+ORDER BY total_order DESC
+LIMIT 5;
+
+-- Show all customers who have written at least one review, along with their email and the number of reviews written.--
+SELECT first_name, email, COUNT(review_id) AS total_review
+FROM review AS r
+JOIN customer AS c
+ON r.customer_id = c.customer_id
+GROUP BY first_name, email
+ORDER BY total_review ASC
+LIMIT 5;
+
+-- Retrieve all orders that include a product from a specific category (e.g., 'Electronics'), along with Customer Name and Order Date. --
+SELECT first_name, Order_date
+FROM orderr AS o
+JOIN customer AS c ON o.customer_id = c.customer_id
+JOIN product as p ON o.product_ID = p.product_id
+WHERE Category = 'Electronics';
+
+-- UNIONS --
+-- Combine All Customer & Review Data --
+SELECT first_name, email, country
+FROM customer
+UNION ALL
+SELECT Product_ID, Product_name, category FROM product;
+
+-- Case Statement --
+-- Categorize Orders by Total Amount --
+
+SELECT customer_id, Order_id, Quantity,
+CASE 
+	WHEN Quantity > 5 THEN 'High Value Order'
+    WHEN Quantity BETWEEN 2 AND 5 THEN 'Medium Value Order'
+    ELSE 'Low Voloum Order'
+END AS Order_category
+FROM Orderr
+ORDER BY Quantity ASC;
+
+-- Assign Review Sentiments --
+SELECT Customer_ID, Review_ID, Rating,
+	CASE 
+    WHEN rating > 4 THEN 'positive'
+    WHEN rating BETWEEN 3 AND 4 THEN 'Neutral'
+    ELSE 'Negative'
+	END AS review_categroy
+FROM Review;
+
+-- Subquery Practice Questions --
+SELECT CUSTOMER_ID, FIRST_NAME
+FROM CUSTOMER
+WHERE CUSTOMER_ID IN (SELECT DISTINCT Customer_id FROM ORDERR);
+
+-- Find Products That Have Received Reviews --
+SELECT PRODUCT_ID, PRODUCT_NAME 
+FROM PRODUCT 
+WHERE PRODUCT_ID IN (SELECT DISTINCT PRODUCT_ID FROM REVIEW);
+
+-- Find Orders With Payments --
+SELECT PRODUCT_ID, ORDER_ID, QUANTITY
+FROM ORDERR 
+WHERE ORDER_ID IN(SELECT DISTINCT ORDER_ID FROM PAYMENT);
+
+-- Find Customers Who Have Not Placed Any Orders --
+SELECT CUSTOMER_ID, FIRST_NAME 
+FROM CUSTOMER 
+WHERE CUSTOMER_ID NOT IN (SELECT DISTINCT CUSTOMER_ID FROM ORDERR);
+
+-- Find Orders With Total Amount Greater Than Average Order Value --
+SELECT PRODUCT_ID, PRODUCT_NAME 
+FROM PRODUCT 
+WHERE PRICE > (SELECT AVG(PRICE)
+FROM PRODUCT);
+
+-- Find The Most Expensive Product Ordered --
+SELECT PRODUCT_ID, PRODUCT_NAME 
+FROM PRODUCT 
+WHERE PRICE > (SELECT MAX(PRICE) FROM PRODUCT);
+
+-- Find Customers Who Have Given A 5-Star Review --
+SELECT FIRST_NAME, CUSTOMER_ID 
+FROM CUSTOMER 
+WHERE CUSTOMER_ID > (SELECT MAX(RATING) FROM REVIEW);
