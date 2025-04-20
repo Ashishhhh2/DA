@@ -1,0 +1,137 @@
+SELECT * FROM MENU_ITEMS;
+SELECT * FROM ORDER_DETAILS;
+
+-- View the menu item --
+CREATE VIEW  MENU_ITEM AS
+SELECT 
+    *
+FROM MENU_ITEMS;
+
+-- Find the number of item in menu --
+CREATE VIEW NUMBER_ITEM AS 
+SELECT 
+    COUNT(*)
+FROM MENU_ITEMS;
+
+-- What are the least and most expensive item on menu --
+CREATE VIEW LEAST_MOST_EXPENSIVE_ITEM AS 
+SELECT 
+    *
+FROM MENU_ITEMS
+ORDER BY PRICE ASC;
+
+SELECT * FROM MENU_ITEMS
+ORDER BY PRICE DESC;
+
+-- How many italian dishes are their --
+CREATE VIEW italian_dishes AS SELECT 
+    COUNT(*)
+FROM MENU_ITEMS
+WHERE CATEGORY = 'ITALIAN';
+
+-- What are the most and least expensive italian dishes on table --
+CREATE VIEW MOST_LEAST_EXPENSIVE_ITEM AS 
+SELECT 
+    *
+FROM
+    MENU_ITEMS
+WHERE
+    CATEGORY = 'ITALIAN'
+ORDER BY PRICE ASC;
+
+SELECT 
+    *
+FROM
+    MENU_ITEMS
+WHERE
+    CATEGORY = 'ITALIAN'
+ORDER BY PRICE DESC;
+
+-- How many dishs in Each categroy --
+
+CREATE VIEW EACH_DISH_CATEGORY AS 
+SELECT 
+    CATEGORY, COUNT(MENU_ITEM_ID) AS EACH_DISHES
+FROM
+    MENU_ITEMS
+GROUP BY CATEGORY;
+
+-- What are the average dish price within each categroy --
+CREATE VIEW AVG_DISH_PRICE AS
+SELECT 
+    CATEGORY, AVG(PRICE) AS AVG_PRICE 
+FROM
+    MENU_ITEMS
+GROUP BY CATEGORY;
+
+-- View the order details table --
+SELECT * FROM ORDER_DETAILS;
+
+-- What is the date range of the table --
+SELECT MIN(ORDER_DATE), MAX(ORDER_DATE) FROM ORDER_DETAILS;
+
+-- How many orders were made within this date range --
+SELECT COUNT(DISTINCT ORDER_ID) FROM ORDER_DETAILS;
+
+-- How many items were ordered within this date range --
+SELECT COUNT(*) FROM ORDER_DETAILS;
+
+-- Which orders had the most number of items --
+SELECT ORDER_ID, COUNT(ITEM_ID) AS NUM_ITEM
+FROM ORDER_DETAILS
+GROUP BY ORDER_ID
+ORDER BY NUM_ITEM DESC
+LIMIT 3;
+
+-- How many orders had more than 12 items --
+SELECT COUNT(*) FROM 
+(SELECT ORDER_ID, COUNT(ITEM_ID) AS NUM_ITEM
+FROM ORDER_DETAILS
+GROUP BY ORDER_ID
+HAVING NUM_ITEM > 12) AS NUM_ORDER;
+
+SELECT * FROM MENU_ITEMS;
+SELECT * FROM ORDER_DETAILS;
+
+-- Combine the menu_items and order_details tables into a single table --
+SELECT * FROM MENU_ITEMS AS M_T
+INNER JOIN ORDER_DETAILS AS O_D
+ON M_T.MENU_ITEM_ID = O_D.ITEM_ID;
+
+-- What were the least and most ordered items? What categories were they in --
+SELECT ITEM_NAME, CATEGORY, COUNT(*) AS NUM_PURCHASE_MAX FROM MENU_ITEMS AS M_T
+INNER JOIN ORDER_DETAILS AS O_D
+ON M_T.MENU_ITEM_ID = O_D.ITEM_ID
+GROUP BY ITEM_NAME, CATEGORY
+ORDER BY NUM_PURCHASE_MAX DESC;
+
+SELECT ITEM_NAME, CATEGORY, COUNT(*) AS NUM_PURCHASE_MIN FROM MENU_ITEMS AS M_T
+INNER JOIN ORDER_DETAILS AS O_D
+ON M_T.MENU_ITEM_ID = O_D.ITEM_ID
+GROUP BY ITEM_NAME, CATEGORY
+ORDER BY NUM_PURCHASE_MIN ASC;
+
+-- What were the top 5 orders that spent the most money --
+SELECT ORDER_ID, SUM(PRICE) AS TOTAL_SPENT 
+FROM MENU_ITEMS AS M_T
+INNER JOIN ORDER_DETAILS AS O_D
+ON M_T.MENU_ITEM_ID = O_D.ITEM_ID
+GROUP BY ORDER_ID
+ORDER BY TOTAL_SPENT DESC 
+LIMIT 5;
+
+-- View the details of the highest spend order. What insights can you gather from the results --
+SELECT CATEGORY, COUNT(ITEM_ID) AS NUM_ID
+FROM MENU_ITEMS AS M_T
+INNER JOIN ORDER_DETAILS AS O_D
+ON M_T.MENU_ITEM_ID = O_D.ITEM_ID
+WHERE ORDER_ID = 440
+GROUP BY CATEGORY;
+
+-- BONUS: View the details of the top 5 highest spend orders. What insights can you gather from the results --
+SELECT ORDER_ID, CATEGORY, COUNT(ITEM_ID) AS NUM_ID
+FROM MENU_ITEMS AS M_T
+INNER JOIN ORDER_DETAILS AS O_D
+ON M_T.MENU_ITEM_ID = O_D.ITEM_ID
+WHERE ORDER_ID IN (440,2075,1957,330,2675)
+GROUP BY ORDER_ID, CATEGORY;
